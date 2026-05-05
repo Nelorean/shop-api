@@ -1,0 +1,53 @@
+1. Quais dados eu preciso receber?
+2. O que eu preciso validar?
+3. O que eu preciso retornar?
+
+1. Quais informações esse recurso precisa ter?
+2. Quais são obrigatórios?
+3. Algum precisa ser único? (unique)
+4. Algum tem valores fixos? (enum)
+5. Algum tem valor padrão? (default)
+6. Preciso de timestamps? (createdAt, updatedAt)
+
+
+- name → obrigatório
+- email → obrigatório + único (não pode repetir)
+- password → obrigatório
+- role → enum (só pode ser admin ou customer) + default customer
+- timestamps → sim, quero saber quando foi criado
+
+========================================================================
+
+1. Recebo: name, email, password
+2. Valido:
+   - O email já existe no banco? → 400
+3. Processo:
+   - Criptografa a senha com bcrypt
+4. Salvo no banco
+5. Retorno: 201 + id do usuário criado
+
+1. Recebo: email, password
+2. Valido:
+   - O usuário existe? → 401
+   - A senha bate? → 401
+   - (Se tiver status) está ativo? → 403
+3. Processo:
+   - Gera o token JWT com id e role
+4. Retorno: token
+
+1. Pego o header Authorization
+2. Existe? → se não, 401
+3. Separo o "Bearer " do token
+4. Verifico o token com jwt.verify
+5. Válido? → salvo os dados em req.user e chamo next()
+6. Inválido? → 401
+
+const funcao = async (req, res) => {
+  try {
+    // 1. Pego os dados (req.body, req.params, req.query)
+    // 2. Valido (existe? tem permissão?)
+    // 3. Processo (cria, busca, atualiza, deleta)
+    // 4. Retorno
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao ...' });
+  }
