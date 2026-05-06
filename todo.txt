@@ -51,3 +51,8 @@ const funcao = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Erro ao ...' });
   }
+  ========================================================================
+   GET    /categories       → listar todas                               V
+   POST   /categories       → criar (admin)
+   PUT    /categories/:id   → atualizar (admin)
+   DELETE /categories/:id   → deletar (admin)
