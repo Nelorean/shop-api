@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     const exist = await User.findOne({ email });
 
@@ -18,13 +18,12 @@ const register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role,
     });
 
     res
       .status(201)
       .json({ message: 'Funcionário criado com sucesso', id: user._id });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Erro ao criar usuário' });
   }
 };
@@ -50,7 +49,7 @@ const login = async (req, res) => {
       { expiresIn: '3d' }
     );
     res.json({ token });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Erro ao fazer login.' });
   }
 };
