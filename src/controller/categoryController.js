@@ -25,6 +25,7 @@ const updateCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
       returnDocument: 'after',
+      runValidators: true,
     });
     if (!category) {
       return res.status(404).json({ message: 'Categoria não encontrada' });
@@ -39,7 +40,7 @@ const deleteCategory = async (req, res) => {
     const category = await Category.findByIdAndUpdate(
       req.params.id,
       { status: 'inativo' },
-      { returnDocument: 'after' }
+      { returnDocument: 'after', runValidators: true }
     );
     if (!category) {
       return res.status(404).json({ message: 'Categoria não encontrada' });

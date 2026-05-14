@@ -64,7 +64,7 @@ const updateProduct = async (req, res) => {
         stock,
         status,
       },
-      { returnDocument: 'after' }
+      { returnDocument: 'after', runValidators: true }
     );
     if (!product) {
       return res.status(404).json({ message: 'Produto não encontrado' });
@@ -79,7 +79,7 @@ const deleteProduct = async (req, res) => {
     const product = await Product.findByIdAndUpdate(
       req.params.id,
       { status: 'inativo' },
-      { returnDocument: 'after' }
+      { returnDocument: 'after', runValidators: true }
     );
     if (!product) {
       return res.status(404).json({ message: 'Produto não encontrado' });
