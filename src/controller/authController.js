@@ -23,7 +23,7 @@ const register = async (req, res) => {
     res
       .status(201)
       .json({ message: 'Funcionário criado com sucesso', id: user._id });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Erro ao criar usuário' });
   }
 };
@@ -49,7 +49,7 @@ const login = async (req, res) => {
       { expiresIn: '3d' }
     );
     res.json({ token });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: 'Erro ao fazer login.' });
   }
 };
