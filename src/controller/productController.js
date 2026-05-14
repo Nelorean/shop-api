@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 
 const getAll = async (req, res) => {
   try {
@@ -35,6 +36,14 @@ const createProduct = async (req, res) => {
     if (exists) {
       return res.status(400).json({ message: `Produto ${name} já existe` });
     }
+    const categoryExists = await Category.findOne({
+      _id: category,
+      status: 'ativo',
+    });
+
+    if (!categoryExists) {
+      return res.status(400).json({ message: 'Categoria inválida' });
+    }
     const product = await Product.create({
       name,
       description,
@@ -53,6 +62,16 @@ const updateProduct = async (req, res) => {
   try {
     const { name, description, price, category, image, stock, status } =
       req.body;
+    if (category) {
+      const categoryExists = await Category.findOne({
+        _id: category,
+        status: 'ativo',
+      });
+
+      if (!categoryExists) {
+        return res.status(400).json({ message: 'Categoria inválida' });
+      }
+    }
     const product = await Product.findByIdAndUpdate(
       req.params.id,
       {
