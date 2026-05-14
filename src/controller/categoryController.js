@@ -2,7 +2,7 @@ const Category = require('../models/Category');
 
 const getAllCategories = async (req, res) => {
   try {
-    const category = await Category.find();
+    const category = await Category.find({ status: 'ativo' });
     res.json(category);
   } catch (error) {
     res.status(500).json({ message: 'Erro ao buscar categorias' });
@@ -11,7 +11,7 @@ const getAllCategories = async (req, res) => {
 const createCategory = async (req, res) => {
   try {
     const { name } = req.body;
-    const exists = await Category.findOne({ name });
+    const exists = await Category.findOne({ name, status: 'ativo' });
     if (exists) {
       return res.status(400).json({ message: 'Categoria já existe' });
     }
@@ -36,7 +36,11 @@ const updateCategory = async (req, res) => {
 };
 const deleteCategory = async (req, res) => {
   try {
-    const category = await Category.findByIdAndDelete(req.params.id);
+    const category = await Category.findByIdAndUpdate(
+      req.params.id,
+      { status: 'inativo' },
+      { returnDocument: 'after' }
+    );
     if (!category) {
       return res.status(404).json({ message: 'Categoria não encontrada' });
     }

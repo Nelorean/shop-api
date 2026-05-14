@@ -7,6 +7,11 @@ const categorySchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    status: {
+      type: String,
+      enum: ['ativo', 'inativo'],
+      default: 'ativo',
+    },
   },
   { timestamps: true }
 );
